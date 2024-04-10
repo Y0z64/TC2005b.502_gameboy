@@ -45,6 +45,9 @@
     overflow-y: auto;
     margin-bottom: 20px;
     padding: 10px 10px 10px 10px;
+    display: grid;
+    column-count: auto auto auto;
+    grid-template-columns: repeat(3, 1fr); /* Add this line */
   }
 
   #interface {
@@ -207,4 +210,26 @@
     letter-spacing: 1px;
   }
 
+.poke-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-items: start;
+  align-items: center;
+}
 
+.poke-sprite {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.poke-name {
+  margin: 0;
+  font-size: medium;
+  text-align: center;
+  width: 100%;
+  height: fit-content;
+}
