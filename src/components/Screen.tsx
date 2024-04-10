@@ -23,9 +23,10 @@ type PokemonResponse = {
 };
 
 export default function Screen() {
+  const limit: number = 9
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
-  const pokeUrl = "https://pokeapi.co/api/v2/pokemon?limit=9";
+  const pokeUrl = "https://pokeapi.co/api/v2/pokemon?limit=" + limit;
 
   const fetchData = async (url: string) => {
     const data: Response = await fetch(url).then((response) => response.json());
@@ -39,7 +40,7 @@ export default function Screen() {
         );
         console.log("ExtendedPokemon: ", extendedPokemon);
         return {
-          name: pokemon.name,
+          name: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),
           sprite: extendedPokemon.sprites.front_default,
           id: extendedPokemon.id,
         };
@@ -55,12 +56,17 @@ export default function Screen() {
       const pokemons = await fetchData(pokeUrl);
       setPokemons(pokemons);
     })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div id="screen" className="bordered">
-      {pokemons.map((pokemon) => 
-        <Card pokemon={pokemon} />
+      {pokemons.length > 0 ? (
+        pokemons.map((pokemon: Pokemon) => (
+          <Card pokemon={pokemon} />
+        ))
+      ) : (
+        <h3 className="loading">Loading...</h3>
       )}
     </div>
   );

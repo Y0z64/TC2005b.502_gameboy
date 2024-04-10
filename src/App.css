@@ -47,7 +47,9 @@
     padding: 10px 10px 10px 10px;
     display: grid;
     column-count: auto auto auto;
-    grid-template-columns: repeat(3, 1fr); /* Add this line */
+    grid-template-columns: repeat(3, 1fr);
+    position: relative;
+    background-color: rgba(0, 128, 0, 0.5);
   }
 
   #interface {
@@ -228,8 +230,16 @@
 
 .poke-name {
   margin: 0;
-  font-size: medium;
+  font-size: large;
   text-align: center;
   width: 100%;
   height: fit-content;
+}
+
+.loading {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 17px;
 }
