@@ -15,7 +15,6 @@ export default function Interface() {
               <div className="red-button-text">A</div>
             </div>
             <div className="red-button-wrapper">
-              {" "}
               <div className="red-button" id="B"></div>
               <div className="red-button-text">B</div>
             </div>

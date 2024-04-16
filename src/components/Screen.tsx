@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Card from "./Card";
+import Battle from "./Battle";
 
 type Response = {
   count: number;
@@ -12,7 +13,10 @@ type Response = {
 
 export type Pokemon = {
   name: string;
-  frontSprite: string;
+  sprites: {
+    frontSprite: string;
+    backSprite: string;
+  };
   id: number;
 };
 
@@ -20,6 +24,7 @@ type PokemonResponse = {
   id: number;
   sprites: {
     front_default: string;
+    back_default: string;
   };
 };
 
@@ -27,6 +32,7 @@ export default function Screen() {
   const limit: number = 9;
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [nextUrl, setNextUrl] = useState<string | null>(null);
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
   const lastPokemonElementRef = useRef<HTMLDivElement | null>(null);
 
   const pokeUrl = "https://pokeapi.co/api/v2/pokemon?limit=" + limit;
@@ -44,7 +50,10 @@ export default function Screen() {
         console.log("ExtendedPokemon: ", extendedPokemon);
         return {
           name: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),
-          frontSprite: extendedPokemon.sprites.front_default,
+          sprites: {
+            frontSprite: extendedPokemon.sprites.front_default,
+            backSprite: extendedPokemon.sprites.back_default,
+          },
           id: extendedPokemon.id,
         };
       })
@@ -92,15 +101,24 @@ export default function Screen() {
     };
   }, [loadMore]);
 
+  const handleSelectedPokemon = (pokemon: Pokemon) => {
+    setSelectedPokemon(pokemon);
+  };
+
   return (
     <div id="screen" className="bordered">
-      {pokemons.length > 0 ? (
-        pokemons.map((pokemon: Pokemon, index: number) => (
-          <Card
-            pokemon={pokemon}
-            ref={index === pokemons.length - 1 ? lastPokemonElementRef : null}
-          />
-        ))
+      {selectedPokemon ? (
+        <Battle chosenPokemon={selectedPokemon} />
+      ) : pokemons.length > 0 ? (
+        <div className="poke-list-wrapper">
+          {pokemons.map((pokemon: Pokemon, index: number) => (
+            <Card
+              pokemon={pokemon}
+              ref={index === pokemons.length - 1 ? lastPokemonElementRef : null}
+              handleSelectecPokemon={handleSelectedPokemon}
+            />
+          ))}
+        </div>
       ) : (
         <h3 className="loading">Loading...</h3>
       )}

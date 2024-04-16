@@ -4,13 +4,14 @@ import { forwardRef, HTMLAttributes, RefAttributes } from "react";
 type Props = HTMLAttributes<HTMLDivElement> &
   RefAttributes<HTMLDivElement> & {
     pokemon: Pokemon;
+    handleSelectecPokemon: (pokemon: Pokemon) => void;
   };
 
-const Card = forwardRef<HTMLDivElement, Props>(({ pokemon, ...props }, ref) => {
+const Card = forwardRef<HTMLDivElement, Props>(({ pokemon, handleSelectecPokemon, ...props }, ref) => {
   return (
-    <div className="poke-card" ref={ref} {...props}>
+    <div className="poke-card" ref={ref} onClick={() => handleSelectecPokemon(pokemon)} {...props}>
       <img
-        src={pokemon.frontSprite}
+        src={pokemon.sprites.frontSprite}
         alt={pokemon.name + " sprite"}
         className="poke-sprite"
       />
