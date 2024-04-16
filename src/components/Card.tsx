@@ -1,14 +1,22 @@
-import { Pokemon } from "./Screen"
+import { Pokemon } from "./Screen";
+import { forwardRef, HTMLAttributes, RefAttributes } from "react";
 
-type Props = {
-  pokemon: Pokemon;
-}
+type Props = HTMLAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement> & {
+    pokemon: Pokemon;
+  };
 
-export default function Card({pokemon}: Props) {
+const Card = forwardRef<HTMLDivElement, Props>(({ pokemon, ...props }, ref) => {
   return (
-    <div className="poke-card">
-      <img src={pokemon.sprite} alt={pokemon.name + " sprite"} className="poke-sprite"/>
+    <div className="poke-card" ref={ref} {...props}>
+      <img
+        src={pokemon.frontSprite}
+        alt={pokemon.name + " sprite"}
+        className="poke-sprite"
+      />
       <p className="poke-name">{pokemon.name}</p>
     </div>
-  )
-}
+  );
+});
+
+export default Card;
